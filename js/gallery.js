@@ -69,7 +69,7 @@ const images = [
         return  arr
             .map(({ preview, original, description }) => 
                 `<li class="gallery-item">
-                    <a class="gallery-link" alt="${description}" href="${preview}">
+                    <a class="gallery-link" href="${preview}">
                     <img
                     class="gallery-image"
                     src="${preview}"
@@ -96,7 +96,7 @@ function handleClick(event) {
 
 function openModal(largeImage) {
     const instance = basicLightbox.create(`
-        <img class="large-img" src="${largeImage}" alt="${images.description} width="1280">
+        <img class="large-img" src="${largeImage}" alt="${images.description}" width="1280">
     `);
     instance.show();
 }
