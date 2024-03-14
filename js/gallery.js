@@ -65,28 +65,29 @@ const images = [
     ];
 
     const galleryList = document.querySelector('ul.gallery');
-    const imagesMarkup = images.map(image => {
-    return `<li class="gallery-item">
-                <a class="gallery-link" alt="${image.description}" href="${image.preview}">
+    function  createImagesMarkup(arr) { 
+        return  arr
+            .map(({ preview, original, description }) => 
+                `<li class="gallery-item">
+                    <a class="gallery-link" alt="${description}" href="${preview}">
                     <img
                     class="gallery-image"
-                    src="${image.preview}"
-                    data-source="${image.original}"
-                    alt="${image.description}"
+                    src="${preview}"
+                    data-source="${original}"
+                    alt="${description}"
                     />
                 </a>
-            </li>`;
-    }).join('');
+            </li>`)
+            .join('')
+   }
 
-galleryList.insertAdjacentHTML('beforeend', imagesMarkup);
-const galleryItems = document.querySelectorAll('.gallery-item');
-
+galleryList.insertAdjacentHTML('beforeend', createImagesMarkup(images));
 galleryList.addEventListener('click', handleClick);
 
 function handleClick(event) {
     event.preventDefault();
     const target = event.target;
-    if (target.nodeName !== 'IMG') {
+    if (target === event.currentTarget) {
         return;
     }
     const largeImage = target.dataset.source;
@@ -95,19 +96,11 @@ function handleClick(event) {
 
 function openModal(largeImage) {
     const instance = basicLightbox.create(`
-        <img class="large-img" src="${largeImage}" alt="${images.description}  width="1280">
+        <img class="large-img" src="${largeImage}" alt="${images.description} width="1280">
     `);
     instance.show();
 }
 
-// function closeModal() {
-//     window.removeEventListener('keydown', closeModalOnEsc);
-// }
-// function closeModalOnEsc(event) {
-//     if (event.key === 'Escape') {
-//         closeModal();
-//     }
-// } 
 console.log(basicLightbox); // перевіряємо, чи правильно підключили бібліотеку
 
 
