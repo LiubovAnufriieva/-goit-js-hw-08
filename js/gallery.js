@@ -64,11 +64,10 @@ const images = [
       },
     ];
 
-    const galleryList = document.querySelector('.gallery');
-
+    const galleryList = document.querySelector('ul.gallery');
     const imagesMarkup = images.map(image => {
     return `<li class="gallery-item">
-                <a class="gallery-link" href="large-image.jpg">
+                <a class="gallery-link" alt="${image.description}" href="${image.preview}">
                     <img
                     class="gallery-image"
                     src="${image.preview}"
@@ -80,14 +79,35 @@ const images = [
     }).join('');
 
 galleryList.insertAdjacentHTML('beforeend', imagesMarkup);
+const galleryItems = document.querySelectorAll('.gallery-item');
 
+galleryList.addEventListener('click', handleClick);
 
-const button = document.querySelector(".my-button");
+function handleClick(event) {
+    event.preventDefault();
+    const target = event.target;
+    if (target.nodeName !== 'IMG') {
+        return;
+    }
+    const largeImage = target.dataset.source;
+    openModal(largeImage);
+}
 
-const handleClick = () => {
-  return 
-};
+function openModal(largeImage) {
+    const instance = basicLightbox.create(`
+        <img class="large-img" src="${largeImage}" alt="${images.description}  width="1280">
+    `);
+    instance.show();
+}
 
-button.addEventListener("click", handleClick);
+// function closeModal() {
+//     window.removeEventListener('keydown', closeModalOnEsc);
+// }
+// function closeModalOnEsc(event) {
+//     if (event.key === 'Escape') {
+//         closeModal();
+//     }
+// } 
+console.log(basicLightbox); // перевіряємо, чи правильно підключили бібліотеку
 
 
